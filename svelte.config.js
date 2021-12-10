@@ -1,5 +1,6 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-static';
 import preprocess from 'svelte-preprocess';
+// import Icons from "unplugin-icons/vite";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -12,7 +13,12 @@ const config = {
 
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
-		ssr: false
+		ssr: false,
+		vite: {
+			// ssr: {
+			// 	noExternal: true
+			// }
+		}
 	}
 };
 

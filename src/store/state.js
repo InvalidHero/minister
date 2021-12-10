@@ -1,7 +1,8 @@
 import { writable } from "svelte/store";
+import { browser } from "$app/env";
 
 const globalStore = (name, initialValue, toStorage = [], fromStorage = []) => {
-    if (window?.localStorage) {
+    if (browser && window?.localStorage) {
         const storedState = window.localStorage.getItem(name);
 
         if (storedState) {
@@ -14,7 +15,7 @@ const globalStore = (name, initialValue, toStorage = [], fromStorage = []) => {
         subscribe,
 
         set: (x) => {
-            if (window?.localStorage) {
+            if (browser && window?.localStorage) {
                 window.localStorage.setItem(name, toStorage.reduce((acc, fn) => fn(acc), x));
             }
             set(x);
@@ -22,5 +23,5 @@ const globalStore = (name, initialValue, toStorage = [], fromStorage = []) => {
     }
 }
 
-export const globalState = globalStore('state', '');
+export const themeState = globalStore('theme', 'g90');
 export const globalObject = globalStore('object', { items: [1, 2, 3], darkmode: false }, [JSON.stringify], [JSON.parse]);

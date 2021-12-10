@@ -1,5 +1,6 @@
 <script>
-    import { globalState, globalObject } from "../../store/state";
+    import { themeState, globalObject } from "../../store/state";
+    export const ssr = false;
 </script>
 
 <h1>Settings</h1>
@@ -15,10 +16,10 @@
 <p>darkmode</p>
 <input type="checkbox" bind:checked={$globalObject.darkmode} />
 
-<input type="text" bind:value={$globalState} />
+<input type="text" bind:value={$themeState} />
 
-<p>{$globalState}</p>
-<p>{JSON.stringify($globalState, null, "")}</p>
+<p>{$themeState}</p>
+<p>{JSON.stringify($themeState, null, "")}</p>
 
 <style>
     h1 {
