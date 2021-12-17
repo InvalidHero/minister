@@ -29,6 +29,9 @@
                 value[5]
             ); // add intervals
         }
+        clear() {
+            this.allocs.length = {}; // clearing the records
+        }
     }
 
     class range {

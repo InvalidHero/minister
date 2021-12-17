@@ -17,9 +17,6 @@
 	function set_data(fc, maxs) {
 		data = fc;
 		maxa = maxs;
-
-		// console.log(data);
-		// console.log(maxa);
 	}
 
 	function set_alloc() {
@@ -31,7 +28,7 @@
 	{#if $status == 0}
 		<FileUpload {status} {set_data} />
 	{:else if $status == 1}
-		<Allocation {status} />
+		<Allocation {status} {maxa} />
 	{:else}
 		<h1>Here are the statistics.</h1>
 		<DChart />

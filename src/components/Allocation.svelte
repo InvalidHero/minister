@@ -1,14 +1,18 @@
 <script lang="ts">
+    import "../../node_modules/svelte-material-ui/bare.css";
+
     import Button, { Label } from "@smui/button";
     import Tab, { Icon } from "@smui/tab";
     import TabBar from "@smui/tab-bar";
     import Dropzone from "svelte-file-dropzone";
     import Papa from "papaparse";
-    import "../../node_modules/svelte-material-ui/bare.css";
-    import { allocRec } from "./Allocs.svelte";
+    import { allocRec } from "./allocRecords.svelte";
+    import AllocEntry from "./allocEntry.svelte";
 
-    // This assumes the columns: [Tutor Name,Question Number,Surname,Firstname,Surname,Firstname]
+    // Columns: [Tutor Name,Question Number,Surname,Firstname,Surname,Firstname]
     export let status;
+    export let maxa;
+
     const allocs: allocRec = new allocRec();
 
     let tabs = [
@@ -41,11 +45,16 @@
             };
 
             Papa.parse(acceptedFiles[0], config);
+            console.log(allocs.allocs);
         }
     }
 
     function handleBackBtn() {
         status.set($status - 1); // TODO: clear the storage
+    }
+
+    function portal_add_alloc(vals: string[]) {
+        allocs.add(vals);
     }
 </script>
 
@@ -61,6 +70,7 @@
             <Label>{tab.label}</Label>
         </Tab>
     </TabBar>
+
     {#if active.label == "By file"}
         <Dropzone
             on:droprejected={() => console.log("provide a csv file pls")}
@@ -68,7 +78,7 @@
             accept=".csv"
         />
     {:else}
-        <p>By number here</p>
+        <AllocEntry portal={portal_add_alloc} />
     {/if}
 </div>
 
