@@ -33,6 +33,10 @@
             this.allocs.length = {}; // clearing the records
         }
 
+        get_via_name(name: string) {
+            // return allocation of a name
+            return this.allocs[name];
+        }
         // json_out() {
         //     const test = []; // not typing this...
 
@@ -80,7 +84,6 @@
                 (int[1].charCodeAt(0) - "A".charCodeAt(0) + 1)
             );
         }
-
         i2s_convert(num: number) {
             const off = "A".charCodeAt(0);
             const l1 = Math.trunc(num / 26) < 25 ? Math.trunc(num / 26) : 25;

@@ -6,7 +6,7 @@
 
     export let allocs;
 
-    const test = new allocRec();
+    const test: allocRec = new allocRec();
 
     test.add(["tutor1", "ass1", "A", "A", "Z", "Z"]);
     test.add(["tutor2", "ass1", "A", "A", "Z", "Z"]);
@@ -20,13 +20,20 @@
         };
     }); // array of names
     const accState: boolean[] = Array(accKeys.length).fill(false); // accordion states
-</script>
 
-<div>
-    <!-- {#each options as item}
-        
-    {/each} -->
-</div>
+    const make_array = (o): any[] => {
+        // turn object to array
+        const arr = [];
+
+        Object.keys(o).forEach((value) => {
+            arr.push({
+                name: value,
+                value: o[value],
+            });
+        });
+        return arr;
+    };
+</script>
 
 <br />
 
@@ -46,7 +53,11 @@
                         <Icon class="material-icons">expand_more</Icon>
                     </IconButton>
                 </Header>
-                <Content>Place Holder</Content>
+                <Content>
+                    {#each make_array(test.get_via_name(rec.value)) as ass_val}
+                        {ass_val.value}
+                    {/each}
+                </Content>
             </Panel>
         {/each}
     </Accordion>
@@ -58,7 +69,7 @@
         background-color: var(--mdc-theme-background, #f8f8f8);
     }
 
-    *:global(.header) {
+    div :global(.smui-accordion__header__title) {
         text-align: left;
     }
 </style>
