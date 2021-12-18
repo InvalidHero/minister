@@ -32,6 +32,14 @@
         clear() {
             this.allocs.length = {}; // clearing the records
         }
+
+        // json_out() {
+        //     const test = []; // not typing this...
+
+        //     Object.keys(this.allocs).forEach((value, _) => {
+        //         this.allocs[]t
+        //     });
+        // }
     }
 
     class range {
@@ -69,7 +77,7 @@
         s2i_convert(int: string) {
             return (
                 (int[0].charCodeAt(0) - "A".charCodeAt(0)) * 26 +
-                (int[1].charCodeAt(0) - "A".charCodeAt(0) + 1)
+                (intt[1].charCodeAt(0) - "A".charCodeAt(0) + 1)
             );
         }
 

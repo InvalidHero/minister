@@ -14,6 +14,7 @@
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-replace": "^3.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
+    "@smui-extra/accordion": "^6.0.0-beta.9",
     "@smui-extra/autocomplete": "^6.0.0-beta.9",
     "@smui/button": "^6.0.0-beta.6",
     "@smui/list": "^6.0.0-beta.7",

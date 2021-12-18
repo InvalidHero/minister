@@ -28,7 +28,12 @@
             s2 in letters &&
             f2 in letters
         ) {
-            portal([name, assignment, s1 + f1, s2 + f2]);
+            if (assignment in maxa) {
+                console.log("success."); //TODO: snack bar
+                portal([name, assignment, s1 + f1, s2 + f2]);
+            } else {
+                console.log("please enter a valid assignment"); //TODO: snack bar
+            }
         }
     };
 </script>

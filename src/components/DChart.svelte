@@ -2,6 +2,10 @@
     import "@carbon/charts/styles.min.css";
     import "carbon-components/css/carbon-components.min.css";
     import { ComboChart } from "@carbon/charts-svelte";
+    import "../../node_modules/svelte-material-ui/bare.css";
+    import Button, { Label } from "@smui/button";
+
+    export let status;
 
     const MAX = 20;
     const VIEW = 0.97;
@@ -61,4 +65,12 @@
     }; // options for plot
 </script>
 
-<ComboChart data={freq_hist} options={copts} />
+<div>
+    <Button on:click={() => status.set($status - 1)} variant="raised">
+        <Label>Back</Label>
+    </Button>
+</div>
+
+<div>
+    <ComboChart data={freq_hist} options={copts} />
+</div>

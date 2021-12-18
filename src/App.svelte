@@ -31,7 +31,7 @@
 		<Allocation {status} {maxa} />
 	{:else}
 		<h1>Here are the statistics.</h1>
-		<DChart />
+		<DChart {status} />
 	{/if}
 </main>
 
