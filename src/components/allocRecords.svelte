@@ -77,7 +77,7 @@
         s2i_convert(int: string) {
             return (
                 (int[0].charCodeAt(0) - "A".charCodeAt(0)) * 26 +
-                (intt[1].charCodeAt(0) - "A".charCodeAt(0) + 1)
+                (int[1].charCodeAt(0) - "A".charCodeAt(0) + 1)
             );
         }
 

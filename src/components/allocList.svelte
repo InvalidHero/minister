@@ -3,12 +3,15 @@
     import Accordion, { Panel, Header, Content } from "@smui-extra/accordion";
     import IconButton, { Icon } from "@smui/icon-button";
     import { allocRec } from "./allocRecords.svelte";
-    import { Separator } from "@smui/list";
 
     export let allocs;
-    // const accState = Array(4).fill(false);
 
     const test = new allocRec();
+
+    test.add(["tutor1", "ass1", "A", "A", "Z", "Z"]);
+    test.add(["tutor2", "ass1", "A", "A", "Z", "Z"]);
+    test.add(["tutor3", "ass1", "A", "A", "Z", "Z"]);
+    test.add(["tutor4", "ass1", "A", "A", "Z", "Z"]);
 
     const accKeys = Object.keys(test.allocs).map((value, index) => {
         return {
@@ -26,55 +29,36 @@
 </div>
 
 <br />
+
 <div class="accordion-container">
     <Accordion>
-        {#each accKeys as key}
-            <p>{key.index}</p>
+        {#each accKeys as rec}
+            <Panel bind:open={accState[rec.index]} extend>
+                <Header class="header">
+                    {rec.value}
+                    <span slot="description" />
+                    <IconButton
+                        slot="icon"
+                        toggle
+                        pressed={accState[rec.index]}
+                    >
+                        <Icon class="material-icons" on>expand_less</Icon>
+                        <Icon class="material-icons">expand_more</Icon>
+                    </IconButton>
+                </Header>
+                <Content>Place Holder</Content>
+            </Panel>
         {/each}
-
-        <!-- <Panel color="secondary" bind:open={accState[0]}>
-            <Header>
-                Panel 1
-                <span slot="description">Description of panel 1.</span>
-                <IconButton slot="icon" toggle pressed={accState[0]}>
-                    <Icon class="material-icons" on>expand_less</Icon>
-                    <Icon class="material-icons">expand_more</Icon>
-                </IconButton>
-            </Header>
-            <Content>The content for panel 1.</Content>
-        </Panel>
-        <Panel color="secondary" bind:open={accState[1]}>
-            <Header>
-                Panel 2
-                <span slot="description">Description of panel 2.</span>
-                <IconButton slot="icon" toggle pressed={accState[1]}>
-                    <Icon class="material-icons" on>expand_less</Icon>
-                    <Icon class="material-icons">expand_more</Icon>
-                </IconButton>
-            </Header>
-            <Content>The content for panel 2.</Content>
-        </Panel>
-        <Panel color="secondary" bind:open={accState[2]}>
-            <Header>
-                Panel 3
-                <span slot="description">Description of panel 3.</span>
-                <IconButton slot="icon" toggle pressed={accState[2]}>
-                    <Icon class="material-icons" on>expand_less</Icon>
-                    <Icon class="material-icons">expand_more</Icon>
-                </IconButton>
-            </Header>
-            <Content>The content for panel 3.</Content>
-        </Panel>
-        <Panel color="secondary" bind:open={accState[3]}>
-            <Header>
-                Panel 4
-                <span slot="description">Description of panel 4.</span>
-                <IconButton slot="icon" toggle pressed={accState[3]}>
-                    <Icon class="material-icons" on>expand_less</Icon>
-                    <Icon class="material-icons">expand_more</Icon>
-                </IconButton>
-            </Header>
-            <Content>The content for panel 4.</Content>
-        </Panel> -->
     </Accordion>
 </div>
+
+<style>
+    * :global(.accordion-container) {
+        padding: 24px;
+        background-color: var(--mdc-theme-background, #f8f8f8);
+    }
+
+    *:global(.header) {
+        text-align: left;
+    }
+</style>
