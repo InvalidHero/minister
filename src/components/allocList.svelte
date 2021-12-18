@@ -27,7 +27,7 @@
 
         Object.keys(o).forEach((value) => {
             arr.push({
-                name: value,
+                ass: value,
                 value: o[value],
             });
         });
@@ -55,7 +55,7 @@
                 </Header>
                 <Content>
                     {#each make_array(test.get_via_name(rec.value)) as ass_val}
-                        {ass_val.value}
+                        {ass_val.ass}
                     {/each}
                 </Content>
             </Panel>
