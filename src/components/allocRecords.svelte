@@ -46,7 +46,7 @@
         // }
     }
 
-    class range {
+    export class range {
         UB: number;
         LB: number;
 
@@ -74,7 +74,7 @@
         }
     }
 
-    class interval {
+    export class interval {
         /* interval are a set of ranges of allocations */
         struct: range[] = [];
 
@@ -128,6 +128,11 @@
             }
             if (inter) this.struct.push(curr_range);
             this.maintain();
+        }
+
+        get_ranges() {
+            return this.struct;
+            // return all disjointed allocs in string
         }
     }
 </script>

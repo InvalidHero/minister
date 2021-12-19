@@ -3,15 +3,32 @@
     import Accordion, { Panel, Header, Content } from "@smui-extra/accordion";
     import IconButton, { Icon } from "@smui/icon-button";
     import { allocRec } from "./allocRecords.svelte";
+    import AllocChart from "./allocChart.svelte";
 
     export let allocs;
 
     const test: allocRec = new allocRec();
 
-    test.add(["tutor1", "ass1", "A", "A", "Z", "Z"]);
-    test.add(["tutor2", "ass1", "A", "A", "Z", "Z"]);
-    test.add(["tutor3", "ass1", "A", "A", "Z", "Z"]);
-    test.add(["tutor4", "ass1", "A", "A", "Z", "Z"]);
+    // test.add(["tutor1", "ass1", "A", "A", "B", "K"]);
+    // test.add(["tutor1", "ass1", "J", "K", "Y", "X"]);
+
+    // test.add(["tutor1", "ass2", "A", "A", "C", "N"]);
+    // test.add(["tutor1", "ass2", "D", "M", "H", "I"]);
+
+    // test.add(["tutor1", "ass3", "A", "A", "B", "K"]);
+    // test.add(["tutor1", "ass3", "J", "K", "Y", "X"]);
+
+    // test.add(["tutor2", "ass1", "A", "A", "B", "K"]);
+    // test.add(["tutor2", "ass1", "J", "K", "Y", "X"]);
+
+    // test.add(["tutor2", "ass2", "A", "A", "C", "N"]);
+    // test.add(["tutor2", "ass2", "D", "M", "H", "I"]);
+
+    // test.add(["tutor2", "ass3", "A", "A", "B", "K"]);
+    // test.add(["tutor2", "ass3", "J", "K", "Y", "X"]);
+
+    // test.add(["tutor3", "ass1", "A", "A", "Z", "Z"]);
+    // test.add(["tutor4", "ass1", "A", "A", "Z", "Z"]);
 
     const accKeys = Object.keys(test.allocs).map((value, index) => {
         return {
@@ -27,8 +44,8 @@
 
         Object.keys(o).forEach((value) => {
             arr.push({
-                ass: value,
-                value: o[value],
+                ass: value, // name of assignment
+                value: o[value], // interval object
             });
         });
         return arr;
@@ -55,8 +72,13 @@
                 </Header>
                 <Content>
                     {#each make_array(test.get_via_name(rec.value)) as ass_val}
-                        {ass_val.ass}
+                        <!-- {ass_val.ass} -->
+                        <AllocChart
+                            assignment_name={ass_val.ass}
+                            int={ass_val.value}
+                        />
                     {/each}
+                    <!-- <AllocChart /> -->
                 </Content>
             </Panel>
         {/each}
