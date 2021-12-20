@@ -13,6 +13,7 @@
     // Columns: [Tutor Name,Question Number,Surname,Firstname,Surname,Firstname]
     export let status;
     export let maxa;
+    export let allocs;
 
     // handle tabs
     let tabs = [

@@ -1,27 +1,29 @@
 <script lang="ts">
 	import DChart from "./components/DChart.svelte";
-	import { writable } from "svelte/store";
 	import FileUpload from "./components/FileUpload.svelte";
 	import Allocation from "./components/Allocation.svelte";
+	import { writable } from "svelte/store";
+	import { allocRec } from "./components/allocRecords.svelte";
 
 	/*
-		0 => no upload
+		0 => upload
 		1 => allocation page
 		2 => view statistics page
 	*/
 	const status = writable(1);
 	let data: Record<string, any>[]; // marks
 	let maxa: Record<string, number>; // maximums
-	let alloc: Record<string, Record<string, any>>; // allocation
+	let alloc = writable(new allocRec()); // allocations
 
 	function set_data(fc, maxs) {
 		data = fc;
 		maxa = maxs;
+
+		// clear the allocations here
+		$alloc.clear();
 	}
 
-	function set_alloc() {
-		// TODO
-	}
+	function set_alloc() {}
 </script>
 
 <main>
