@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DChart from "./components/DChart.svelte";
+	import StatsDashboard from "./components/statsDash/Dashboard.svelte";
 	import FileUpload from "./components/FileUpload.svelte";
 	import Allocation from "./components/Allocation.svelte";
 	import { writable } from "svelte/store";
@@ -10,30 +10,27 @@
 		1 => allocation page
 		2 => view statistics page
 	*/
-	const status = writable(1);
+	const status = writable(2);
 	let data: Record<string, any>[]; // marks
 	let maxa: Record<string, number>; // maximums
-	let alloc = writable(new allocRec()); // allocations
+	let allocs = writable(new allocRec()); // allocations
 
 	function set_data(fc, maxs) {
 		data = fc;
 		maxa = maxs;
 
 		// clear the allocations here
-		$alloc.clear();
+		$allocs.clear();
 	}
-
-	function set_alloc() {}
 </script>
 
 <main>
 	{#if $status == 0}
 		<FileUpload {status} {set_data} />
 	{:else if $status == 1}
-		<Allocation {status} {maxa} />
+		<Allocation {status} {maxa} {allocs} />
 	{:else}
-		<h1>Here are the statistics.</h1>
-		<DChart {status} />
+		<StatsDashboard {status} {data} {maxa} {allocs} />
 	{/if}
 </main>
 
@@ -43,13 +40,6 @@
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
 	}
 
 	@media (min-width: 640px) {

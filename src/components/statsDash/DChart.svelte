@@ -2,13 +2,9 @@
     import "@carbon/charts/styles.min.css";
     import "carbon-components/css/carbon-components.min.css";
     import { ComboChart } from "@carbon/charts-svelte";
-    import "../../node_modules/svelte-material-ui/bare.css";
-    import Button, { Label } from "@smui/button";
-
-    export let status;
 
     const MAX = 20;
-    const VIEW = 0.97;
+    const VIEW = 0.98;
     const EPSILON = (((1 - VIEW) * MAX) / 2) * VIEW; // make plots look better
 
     export const data = [
@@ -38,7 +34,7 @@
     ); // cram in frequency
 
     const copts = {
-        title: "Distribution of marks ",
+        title: "Distribution of marks",
         axes: {
             bottom: {
                 mapsTo: "group",
@@ -52,6 +48,9 @@
                 scaleType: "linear",
             },
         },
+        legend: {
+            enabled: false,
+        },
         curve: "curveMonotoneX",
         comboChartTypes: [
             {
@@ -64,12 +63,6 @@
         height: "500px",
     }; // options for plot
 </script>
-
-<div>
-    <Button on:click={() => status.set($status - 1)} variant="raised">
-        <Label>Back</Label>
-    </Button>
-</div>
 
 <div>
     <ComboChart data={freq_hist} options={copts} />

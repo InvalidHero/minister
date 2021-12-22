@@ -1,21 +1,17 @@
 <script lang="ts">
-    import "../../node_modules/svelte-material-ui/bare.css";
     import Button, { Label } from "@smui/button";
     import Tab, { Icon } from "@smui/tab";
     import TabBar from "@smui/tab-bar";
     import Dropzone from "svelte-file-dropzone";
     import Papa from "papaparse";
-    import { allocRec } from "./allocRecords.svelte";
-    import { writable } from "svelte/store";
     import AllocEntry from "./allocEntry.svelte";
     import AllocList from "./allocList.svelte";
 
-    // Columns: [Tutor Name,Question Number,Surname,Firstname,Surname,Firstname]
+    // [Tutor Name,Question Number,Surname,Firstname,Surname,Firstname]
     export let status;
     export let maxa;
     export let allocs;
 
-    // handle tabs
     let tabs = [
         {
             icon: "attach_file",
@@ -27,8 +23,6 @@
         },
     ];
     let active = tabs[0];
-    // const temp_allocs:  allocRec= new allocRec();
-    const allocs = writable(new allocRec());
 
     function handleFileSelect(e) {
         const { acceptedFiles, fileRejections } = e.detail;
@@ -46,6 +40,7 @@
                             // check if assignment exists.
                             $allocs.add(value);
                     });
+                    portal_add_alloc([]);
                 },
             };
             Papa.parse(acceptedFiles[0], config);
@@ -54,10 +49,14 @@
 
     const handleBack = () => {
         status.set($status - 1);
-    }; // TODO: clear allocations if gone back
+        $allocs.clear(); // clear allocations
+    };
 
     function portal_add_alloc(vals: string[]) {
-        $allocs.add(vals);
+        if (vals.length != 0) {
+            $allocs.add(vals);
+        }
+        allocs.set($allocs); //trigger rerender
     } // for add entry via form
 </script>
 
@@ -65,27 +64,6 @@
 <Button on:click={handleBack} variant="raised">
     <Label>Back</Label>
 </Button>
-
-<div>
-    <TabBar {tabs} let:tab bind:active>
-        <Tab {tab}>
-            <Icon class="material-icons">{tab.icon}</Icon>
-            <Label>{tab.label}</Label>
-        </Tab>
-    </TabBar>
-
-    {#if active.label == "By file"}
-        <Dropzone
-            on:droprejected={() => console.log("provide a csv file pls")}
-            on:drop={handleFileSelect}
-            accept=".csv"
-        />
-    {:else}
-        <AllocEntry portal={portal_add_alloc} {maxa} />
-    {/if}
-</div>
-
-<br />
 
 <div>
     <Button
@@ -99,10 +77,29 @@
 </div>
 
 <div>
-    <AllocList {allocs} />
+    <TabBar {tabs} let:tab bind:active>
+        <Tab {tab}>
+            <Icon class="material-icons">{tab.icon}</Icon>
+            <Label>{tab.label}</Label>
+        </Tab>
+    </TabBar>
+
+    {#if active.label == "By file"}
+        <Dropzone
+            on:droprejected={() => console.log("provide a csv file pls")}
+            on:drop={(e) => {
+                handleFileSelect(e);
+            }}
+            accept=".csv"
+        />
+    {:else}
+        <AllocEntry portal={portal_add_alloc} {maxa} />
+    {/if}
 </div>
 
 <br />
+
+<AllocList {allocs} />
 
 <svelte:head>
     <!-- Fonts -->

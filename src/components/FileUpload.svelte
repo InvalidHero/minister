@@ -15,8 +15,8 @@
         const config = {
             delimiter: ",",
             header: true,
-            step: (result, parser) => {
-                Object.keys(result.data).forEach((key, value) => {
+            step: (result, _) => {
+                Object.keys(result.data).forEach((key, _) => {
                     if (key != FFN && key != FSN) {
                         result.data[key] = !isNaN(Number(result.data[key]))
                             ? +result.data[key]

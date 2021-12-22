@@ -30,12 +30,34 @@
             ); // add intervals
         }
         clear() {
-            this.allocs.length = {}; // clearing the records
+            this.allocs = {}; // clearing the records
         }
 
-        get_via_name(name: string) {
-            // return allocation of a name
-            return this.allocs[name];
+        get_names() {
+            // console.log(this.allocs);
+            if (Object.entries(this.allocs).length == 0) {
+                return [];
+            } else {
+                return Object.keys(this.allocs);
+            }
+        }
+        get_via_name(name: string, array = false) {
+            // alloc of name, assume name exists
+            if (array) {
+                return Object.keys(this.allocs[name]).map((v) => {
+                    return {
+                        index: v,
+                        value: this.allocs[name][v],
+                    };
+                });
+            } else {
+                return this.allocs[name];
+            }
+        }
+
+        get_via_name_ass(name: string, ass_name: string) {
+            // assumes both exists, else undefined
+            return this.allocs[name][ass_name];
         }
         // json_out() {
         //     const test = []; // not typing this...
