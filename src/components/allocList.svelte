@@ -1,7 +1,6 @@
 <script lang="ts">
     import Accordion, { Panel, Header, Content } from "@smui-extra/accordion";
     import IconButton, { Icon } from "@smui/icon-button";
-    import type { allocRec } from "./allocRecords.svelte";
     import AllocChart from "./allocChart.svelte";
     import { onDestroy } from "svelte";
 

@@ -29,6 +29,7 @@
                 value[5]
             ); // add intervals
         }
+
         clear() {
             this.allocs = {}; // clearing the records
         }
@@ -41,6 +42,7 @@
                 return Object.keys(this.allocs);
             }
         }
+
         get_via_name(name: string, array = false) {
             // alloc of name, assume name exists
             if (array) {
@@ -55,7 +57,7 @@
             }
         }
 
-        get_via_name_ass(name: string, ass_name: string) {
+        get_interval(name: string, ass_name: string) {
             // assumes both exists, else undefined
             return this.allocs[name][ass_name];
         }
@@ -94,6 +96,9 @@
                 return false; // no changes were made
             }
         }
+        in(num: number) {
+            return this.LB <= num && num <= this.UB;
+        }
     }
 
     export class interval {
@@ -106,6 +111,7 @@
                 (int[1].charCodeAt(0) - "A".charCodeAt(0) + 1)
             );
         }
+
         i2s_convert(num: number) {
             const off = "A".charCodeAt(0);
             const l1 = Math.trunc(num / 26) < 25 ? Math.trunc(num / 26) : 25;
@@ -134,6 +140,7 @@
                 }
             }
         }
+
         add(S1: string, F1: string, S2: string, F2: string) {
             const curr_range = new range(
                 this.s2i_convert(S1 + F1),
@@ -155,6 +162,19 @@
         get_ranges() {
             return this.struct;
             // return all disjointed allocs in string
+        }
+
+        in(check: string) {
+            const curr = this.s2i_convert(check);
+
+            if (this.struct.length == 0) {
+                return false;
+            } else {
+                for (let i = 0; i < this.struct.length; i++) {
+                    if (this.struct[i].in(curr)) return true;
+                }
+                return false;
+            }
         }
     }
 </script>

@@ -4,15 +4,13 @@
     import Button, { Label } from "@smui/button";
     import Tab, { Icon } from "@smui/tab";
     import TabBar from "@smui/tab-bar";
+    import StatsList from "./statsList.svelte";
+    import { filter_via_alloc } from "./statsUtil.svelte";
 
-    export let status;
-    export let data;
-    export let maxa;
-    export let allocs;
-
-    $allocs.add(["Guy1", "A1Q1", "A", "A", "Z", "Z"]);
-    $allocs.add(["Guy1", "A1Q2", "A", "A", "Z", "Z"]);
-    $allocs.add(["Guy2", "A2Q1", "A", "A", "Z", "Z"]);
+    export let status; // for paging an rendering
+    export let data; // marks
+    export let maxa; // assignment name: maximum marks
+    export let allocs; // allocations structure
 
     let tabs = [
         {
@@ -26,24 +24,39 @@
     ];
     let active = tabs[0];
 
-    const test_options = ["A1Q1", "A1Q2", "A2Q1", "A2Q2", "A3Q1", "A3Q2"];
+    const test_options = Object.keys(maxa);
     $: value = test_options[0]; //TODO: handle case of no assignments
 
-    $: curr_data = extract_alloc(value); // data for the selected assignment
+    $: curr_alloc = extract_alloc(value); // assignment allocations
+    $: overall_data = extract_overall(value);
+    $: filtered_data = get_filtered(curr_alloc, value);
 
     function extract_alloc(ass_name) {
-        // Record<name, allocation>
         const overall_allocs: Record<string, any> = [];
 
         $allocs.get_names().forEach((name: string) => {
-            if (ass_name in $allocs.get_via_name(name, true)) {
-                // alloc for name has ass_name
+            if (ass_name in $allocs.get_via_name(name)) {
                 overall_allocs.push({
                     name: name,
                     allocation: $allocs.get_interval(name, ass_name),
                 });
             }
         });
+        return overall_allocs;
+    }
+
+    function extract_overall(value) {
+        console.log("overall");
+        return data.map((v) => v[value]);
+    }
+
+    function get_filtered(curr_alloc, value) {
+        console.log("filter");
+        return curr_alloc
+            .map((v) => {
+                return filter_via_alloc(data, value, v.name, v.allocation);
+            })
+            .sort((a, b) => a.name < b.name); // individual score
     }
 </script>
 
@@ -75,6 +88,9 @@
 </div>
 
 <Dchart />
+
+<br />
+<StatsList {overall_data} {filtered_data} />
 
 <svelte:head>
     <!-- Fonts -->

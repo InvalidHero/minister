@@ -10,7 +10,7 @@
 		1 => allocation page
 		2 => view statistics page
 	*/
-	const status = writable(2);
+	const status = writable(0);
 	let data: Record<string, any>[]; // marks
 	let maxa: Record<string, number>; // maximums
 	let allocs = writable(new allocRec()); // allocations
@@ -18,7 +18,6 @@
 	function set_data(fc, maxs) {
 		data = fc;
 		maxa = maxs;
-
 		// clear the allocations here
 		$allocs.clear();
 	}

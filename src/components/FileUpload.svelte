@@ -1,4 +1,8 @@
 <script lang="ts">
+    /*
+    TODO:
+    Sanity check the columns of the upload file
+    */
     import Dropzone from "svelte-file-dropzone";
     import Papa from "papaparse";
 
@@ -16,15 +20,16 @@
             delimiter: ",",
             header: true,
             step: (result, _) => {
-                Object.keys(result.data).forEach((key, _) => {
-                    if (key != FFN && key != FSN) {
-                        result.data[key] = !isNaN(Number(result.data[key]))
-                            ? +result.data[key]
-                            : 0;
-                    }
-                });
-
-                file_content.push(result.data);
+                if (Object.keys(result.data).length > 2) {
+                    Object.keys(result.data).forEach((key, _) => {
+                        if (key != FFN && key != FSN) {
+                            result.data[key] = !isNaN(Number(result.data[key]))
+                                ? +result.data[key]
+                                : 0;
+                        }
+                    });
+                    file_content.push(result.data);
+                }
             },
             error: (err, file, inputElem, reason) => {
                 console.log(reason); // TODO: error message here
