@@ -6,6 +6,7 @@
     import TabBar from "@smui/tab-bar";
     import StatsList from "./statsList.svelte";
     import { filter_via_alloc } from "./statsUtil.svelte";
+    import { writable } from "svelte/store";
 
     export let status; // for paging an rendering
     export let data; // marks
@@ -25,7 +26,7 @@
     let active = tabs[0];
 
     const test_options = Object.keys(maxa);
-    $: value = test_options[0]; //TODO: handle case of no assignments
+    let value = test_options[0]; //TODO: handle case of no assignments
 
     $: curr_alloc = extract_alloc(value); // assignment allocations
     $: overall_data = extract_overall(value);
@@ -46,12 +47,10 @@
     }
 
     function extract_overall(value) {
-        console.log("overall");
         return data.map((v) => v[value]);
     }
 
     function get_filtered(curr_alloc, value) {
-        console.log("filter");
         return curr_alloc
             .map((v) => {
                 return filter_via_alloc(data, value, v.name, v.allocation);

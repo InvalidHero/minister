@@ -10,6 +10,9 @@
     export let overall_data;
     export let filtered_data; // filtered and rendered
 
+    $: rod = [...overall_data];
+    $: rfd = [...filtered_data];
+
     //TODO: sort before display, do the same for the alloc lists
     function stackClick() {}
 </script>
@@ -18,13 +21,13 @@
     <Panel>
         <Header>Overall</Header>
         <Content>
-            <StatsTable data={overall_data} />
+            <StatsTable data={rod} />
             <Button on:click={stackClick} variant="raised">
                 <Label>Stack</Label>
             </Button>
         </Content>
     </Panel>
-    {#each filtered_data as alloc}
+    {#each rfd as alloc}
         <Panel>
             <Header>{alloc.name}</Header>
             <Content>

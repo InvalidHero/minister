@@ -7,31 +7,36 @@
         sampleSkewness,
     } from "simple-statistics";
     import DataTable, { Head, Body, Row, Cell } from "@smui/data-table";
+    import { get } from "svelte/store";
 
     export let data: number[];
 
-    const dispList = [
-        {
-            name: "Mean",
-            value: mean(data).toFixed(2),
-        },
-        {
-            name: "Median",
-            value: median(data).toFixed(2),
-        },
-        {
-            name: "Standard Deviation",
-            value: sampleStandardDeviation(data).toFixed(2),
-        },
-        {
-            name: "Interquartile Range",
-            value: interquartileRange(data).toFixed(2),
-        },
-        {
-            name: "Skewness",
-            value: sampleSkewness(data).toFixed(2),
-        },
-    ];
+    $: dispList = get_list(data);
+
+    function get_list(data) {
+        return [
+            {
+                name: "Mean",
+                value: mean(data).toFixed(2),
+            },
+            {
+                name: "Median",
+                value: median(data).toFixed(2),
+            },
+            {
+                name: "Standard Deviation",
+                value: sampleStandardDeviation(data).toFixed(2),
+            },
+            {
+                name: "Interquartile Range",
+                value: interquartileRange(data).toFixed(2),
+            },
+            {
+                name: "Skewness",
+                value: sampleSkewness(data).toFixed(2),
+            },
+        ];
+    }
 </script>
 
 <DataTable table$aria-label="Statistics List">
