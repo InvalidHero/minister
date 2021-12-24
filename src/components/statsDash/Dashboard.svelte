@@ -6,7 +6,7 @@
     import TabBar from "@smui/tab-bar";
     import StatsList from "./statsList.svelte";
     import { filter_via_alloc } from "./statsUtil.svelte";
-    import { writable } from "svelte/store";
+    import StatsStack from "./statsStacked.svelte";
 
     export let status; // for paging an rendering
     export let data; // marks
@@ -15,12 +15,12 @@
 
     let tabs = [
         {
-            icon: "assessment",
-            label: "Detailed Chart",
+            icon: "signal_cellular_alticon",
+            label: "Bar Charts",
         },
         {
-            icon: "compare",
-            label: "Compare charts",
+            icon: "timeline",
+            label: "Line Charts",
         },
     ];
     let active = tabs[0];
@@ -46,11 +46,11 @@
         return overall_allocs;
     }
 
-    function extract_overall(value) {
+    function extract_overall(value): any[] {
         return data.map((v) => v[value]);
     }
 
-    function get_filtered(curr_alloc, value) {
+    function get_filtered(curr_alloc, value): any[] {
         return curr_alloc
             .map((v) => {
                 return filter_via_alloc(data, value, v.name, v.allocation);
@@ -84,12 +84,17 @@
             <Label>{tab.label}</Label>
         </Tab>
     </TabBar>
+    {#if active.label == "Bar Charts"}
+        <StatsStack {overall_data} {filtered_data} {maxa} {value} bar={true} />
+    {:else}
+        <StatsStack {overall_data} {filtered_data} {maxa} {value} bar={false} />
+    {/if}
 </div>
 
-<Dchart />
+<!-- <Dchart /> -->
 
 <br />
-<StatsList {overall_data} {filtered_data} />
+<StatsList {overall_data} {filtered_data} {maxa} ass_name={value} />
 
 <svelte:head>
     <!-- Fonts -->

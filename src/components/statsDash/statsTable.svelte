@@ -7,13 +7,14 @@
         sampleSkewness,
     } from "simple-statistics";
     import DataTable, { Head, Body, Row, Cell } from "@smui/data-table";
-    import { get } from "svelte/store";
 
     export let data: number[];
+    export let maxa;
+    export let ass_name;
 
-    $: dispList = get_list(data);
+    $: dispList = get_list(data, maxa, ass_name);
 
-    function get_list(data) {
+    function get_list(data, maxa, ass_name) {
         return [
             {
                 name: "Mean",
@@ -34,6 +35,10 @@
             {
                 name: "Skewness",
                 value: sampleSkewness(data).toFixed(2),
+            },
+            {
+                name: "Maximum",
+                value: maxa[ass_name],
             },
         ];
     }
