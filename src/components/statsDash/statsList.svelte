@@ -30,7 +30,6 @@
                 <LinkedChart
                     data={occ_collect_mini("", rod, maxa[ass_name])}
                     linked="link-1"
-                    showLabel={true}
                     showValue={true}
                 />
             </div>
@@ -48,7 +47,6 @@
                     <LinkedChart
                         data={occ_collect_mini("", alloc.data, maxa[ass_name])}
                         linked="link-1"
-                        showLabel={true}
                         showValue={true}
                     />
                 </div>

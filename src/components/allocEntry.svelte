@@ -3,6 +3,7 @@
     import { interval } from "./allocRecords.svelte";
     import Textfield from "@smui/textfield";
     import Autocomplete from "@smui-extra/autocomplete";
+    import { update_alloc } from "./generalUtils.svelte";
 
     export let portal; // prop
     export let maxa;
@@ -28,8 +29,9 @@
                 ) {
                     console.log("please enter a valid allocation"); //TODO: snack bar
                 } else {
+                    update_alloc([name, assignment, s1, f1, s2, f2]);
                     portal([name, assignment, s1, f1, s2, f2]);
-                    console.log("success."); //TODO: snack bar
+                    // console.log("success."); //TODO: snack bar
                 }
             } else {
                 console.log(`Assignment name of ${assignment} does not exist.`); //TODO: snack bar

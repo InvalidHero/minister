@@ -6,6 +6,7 @@
     import Papa from "papaparse";
     import AllocEntry from "./allocEntry.svelte";
     import AllocList from "./allocList.svelte";
+    import { update_alloc } from "./generalUtils.svelte";
 
     // [Tutor Name,Question Number,Surname,Firstname,Surname,Firstname]
     export let status;
@@ -35,10 +36,12 @@
                 },
                 complete: (results) => {
                     results.data.shift(); // don't need header
-                    results.data.map((value, _) => {
-                        if (value[1] in maxa)
-                            // check if assignment exists.
+                    results.data.forEach((value, _) => {
+                        // check if assignment exists.
+                        if (value[1] in maxa) {
                             $allocs.add(value);
+                            update_alloc(value);
+                        }
                     });
                     portal_add_alloc([]);
                 },
@@ -50,6 +53,10 @@
     const handleBack = () => {
         status.set($status - 1);
         $allocs.clear(); // clear allocations
+
+        window.localStorage.removeItem("data");
+        window.localStorage.removeItem("allocations");
+        // TODO: add a proper prompt menu
     };
 
     function portal_add_alloc(vals: string[]) {
