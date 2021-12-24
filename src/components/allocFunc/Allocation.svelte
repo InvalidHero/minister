@@ -6,7 +6,7 @@
     import Papa from "papaparse";
     import AllocEntry from "./allocEntry.svelte";
     import AllocList from "./allocList.svelte";
-    import { update_alloc } from "./generalUtils.svelte";
+    import { update_alloc } from "../generalUtils.svelte";
 
     // [Tutor Name,Question Number,Surname,Firstname,Surname,Firstname]
     export let status;

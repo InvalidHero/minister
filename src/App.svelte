@@ -1,9 +1,9 @@
 <script lang="ts">
 	import StatsDashboard from "./components/statsDash/Dashboard.svelte";
 	import FileUpload from "./components/FileUpload.svelte";
-	import Allocation from "./components/Allocation.svelte";
+	import Allocation from "./components/allocFunc/Allocation.svelte";
 	import { writable } from "svelte/store";
-	import { allocRec } from "./components/allocRecords.svelte";
+	import { allocRec } from "./components/allocFunc/allocRecords.svelte";
 	import { load_file } from "./components/generalUtils.svelte";
 
 	/*

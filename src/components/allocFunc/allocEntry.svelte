@@ -3,7 +3,7 @@
     import { interval } from "./allocRecords.svelte";
     import Textfield from "@smui/textfield";
     import Autocomplete from "@smui-extra/autocomplete";
-    import { update_alloc } from "./generalUtils.svelte";
+    import { update_alloc } from "../generalUtils.svelte";
 
     export let portal; // prop
     export let maxa;
