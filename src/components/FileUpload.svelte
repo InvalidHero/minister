@@ -1,8 +1,4 @@
 <script lang="ts">
-    /*
-    TODO:
-    Sanity check the columns of the upload file
-    */
     import Dropzone from "svelte-file-dropzone";
     import { load_file } from "./generalUtils.svelte";
 
@@ -22,7 +18,6 @@
 </script>
 
 <h1>Please upload file</h1>
-<!-- //TODO: proper error message  -->
 <Dropzone
     on:droprejected={() => console.log("provide a csv file pls")}
     on:drop={handleFileSelect}

@@ -60,9 +60,49 @@
             const temp: string[][] = JSON.parse(
                 window.localStorage.getItem("allocations")
             );
-            // TODO: can add a procedure to stop spamming
-            temp.push(value);
+
+            const check_dup = (curr: string[][], v: string[]) => {
+                for (let i = 0; i < curr.length; i++) {
+                    let same = true;
+                    for (let j = 0; j < v.length; j++) {
+                        if (curr[i][j] != v[j]) {
+                            same = false;
+                            break;
+                        }
+                    }
+                    if (same) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            if (!check_dup(temp, value)) {
+                temp.push(value);
+            }
+
+            // TODO: can add a procedure to stop duplication
             window.localStorage.setItem("allocations", JSON.stringify(temp));
+        }
+    }
+
+    export function allocsv_gen() {
+        if (window.localStorage.getItem("allocations")) {
+            const content = JSON.parse(
+                window.localStorage.getItem("allocations")
+            );
+
+            let output = [
+                "Tutor Name,Question Number,Surname,Firstname,Surname,Firstname",
+            ];
+
+            content.forEach((vec: string[]) => {
+                output.push(vec.join(","));
+            });
+
+            return output;
+        } else {
+            return "No allocation yet :D";
         }
     }
 </script>

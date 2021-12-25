@@ -6,7 +6,9 @@
     import Papa from "papaparse";
     import AllocEntry from "./allocEntry.svelte";
     import AllocList from "./allocList.svelte";
-    import { update_alloc } from "../generalUtils.svelte";
+    import { update_alloc, allocsv_gen } from "../generalUtils.svelte";
+    import Dialog, { Title, Content, Actions } from "@smui/dialog";
+    import SvelteMarkdown from "svelte-markdown";
 
     // [Tutor Name,Question Number,Surname,Firstname,Surname,Firstname]
     export let status;
@@ -65,12 +67,40 @@
         }
         allocs.set($allocs); //trigger rerender
     } // for add entry via form
+
+    let open = false;
 </script>
 
 <h1>Add your allocations</h1>
 <Button on:click={handleBack} variant="raised">
     <Label>Back</Label>
 </Button>
+
+<Dialog
+    bind:open
+    aria-labelledby="simple-title"
+    aria-describedby="simple-content"
+>
+    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+    <Title id="simple-title">CSV output</Title>
+    <Content id="simple-content">
+        {#each allocsv_gen() as row}
+            <code> {row} </code>
+            <br />
+        {/each}
+        <!-- <SvelteMarkdown source={allocsv_mkgen()} /> -->
+    </Content>
+    <Actions>
+        <Button
+            on:click={() => {
+                open = false;
+            }}
+            variant="raised"
+        >
+            <Label>Back</Label>
+        </Button>
+    </Actions>
+</Dialog>
 
 <div>
     <Button
@@ -107,6 +137,14 @@
 <br />
 
 <AllocList {allocs} />
+
+<br />
+
+<div>
+    <Button on:click={() => (open = true)} variant="raised">
+        <Label>output as csv</Label>
+    </Button>
+</div>
 
 <svelte:head>
     <!-- Fonts -->
