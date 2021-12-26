@@ -52,15 +52,6 @@
         }
     }
 
-    const handleBack = () => {
-        status.set($status - 1);
-        $allocs.clear(); // clear allocations
-
-        window.localStorage.removeItem("data");
-        window.localStorage.removeItem("allocations");
-        // TODO: add a proper prompt menu
-    };
-
     function portal_add_alloc(vals: string[]) {
         if (vals.length != 0) {
             $allocs.add(vals);
@@ -69,12 +60,11 @@
     } // for add entry via form
 
     let open = false;
+
+    let csv_strings: string[] = allocsv_gen();
 </script>
 
 <h1>Add your allocations</h1>
-<Button on:click={handleBack} variant="raised">
-    <Label>Back</Label>
-</Button>
 
 <Dialog
     bind:open
@@ -84,11 +74,10 @@
     <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
     <Title id="simple-title">CSV output</Title>
     <Content id="simple-content">
-        {#each allocsv_gen() as row}
+        {#each csv_strings as row}
             <code> {row} </code>
             <br />
         {/each}
-        <!-- <SvelteMarkdown source={allocsv_mkgen()} /> -->
     </Content>
     <Actions>
         <Button
@@ -101,17 +90,6 @@
         </Button>
     </Actions>
 </Dialog>
-
-<div>
-    <Button
-        on:click={() => {
-            status.set($status + 1);
-        }}
-        variant="raised"
-    >
-        <Label>Done</Label>
-    </Button>
-</div>
 
 <div>
     <TabBar {tabs} let:tab bind:active>
@@ -141,7 +119,13 @@
 <br />
 
 <div>
-    <Button on:click={() => (open = true)} variant="raised">
+    <Button
+        on:click={() => {
+            open = true;
+            csv_strings = allocsv_gen();
+        }}
+        variant="raised"
+    >
         <Label>output as csv</Label>
     </Button>
 </div>

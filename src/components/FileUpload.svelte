@@ -17,18 +17,19 @@
     }
 </script>
 
-<h1>Please upload file</h1>
+<!-- <h1>Please upload file</h1> -->
 <Dropzone
     on:droprejected={() => console.log("provide a csv file pls")}
     on:drop={handleFileSelect}
     accept=".csv"
+    containerClasses="drop-zone-class"
+    containerStyles="padding-top: 17% ;padding-bottom: 15%;"
+    disableDefaultStyles={false}
 />
 
+<!-- containerStyles="padding-top: 19% ;padding-bottom: 15%;" -->
 <style>
-    h1 {
-        color: #ff3e00;
-        text-transform: uppercase;
-        font-size: 4em;
-        font-weight: 100;
+    :global(.drop-zone-class) {
+        min-height: 300px;
     }
 </style>

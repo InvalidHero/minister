@@ -102,7 +102,7 @@
 
             return output;
         } else {
-            return "No allocation yet :D";
+            return ["No allocation yet :D"];
         }
     }
 </script>
