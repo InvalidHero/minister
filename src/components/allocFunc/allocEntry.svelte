@@ -8,6 +8,7 @@
 
     export let portal; // prop
     export let maxa;
+    export let open_snack;
 
     let letters: string[] = Array(26)
         .fill(0)
@@ -28,14 +29,14 @@
                 if (
                     checker.s2i_convert(s1 + f1) > checker.s2i_convert(s2 + f2)
                 ) {
-                    console.log("please enter a valid allocation"); //TODO: snack bar
+                    open_snack("please enter a valid allocation"); //TODO: snack bar
                 } else {
                     update_alloc([name, assignment, s1, f1, s2, f2]);
                     portal([name, assignment, s1, f1, s2, f2]);
                     // console.log("success."); //TODO: snack bar
                 }
             } else {
-                console.log(`Assignment name of ${assignment} does not exist.`); //TODO: snack bar
+                open_snack(`Assignment name of ${assignment} does not exist.`);
             }
         }
     };
@@ -122,7 +123,4 @@
         /* background-color: var(--mdc-theme-secondary, #333);
         color: var(--mdc-theme-on-secondary, #fff); */
     }
-    /* .allocs-entry {
-        height: 100%;
-    } */
 </style>

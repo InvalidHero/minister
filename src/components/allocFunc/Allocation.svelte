@@ -14,6 +14,7 @@
     export let status;
     export let maxa;
     export let allocs;
+    export let open_snack: Function;
 
     let tabs = [
         {
@@ -49,6 +50,8 @@
                 },
             };
             Papa.parse(acceptedFiles[0], config);
+        } else {
+            open_snack("Please upload a valid file.");
         }
     }
 
@@ -71,7 +74,6 @@
     aria-labelledby="simple-title"
     aria-describedby="simple-content"
 >
-    <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
     <Title id="simple-title">CSV output</Title>
     <Content id="simple-content">
         {#each csv_strings as row}
@@ -108,11 +110,11 @@
                 }}
                 accept=".csv"
                 containerClasses="drop-zone-class"
-                containerStyles="padding-top: 17% ;padding-bottom: 15%;"
+                containerStyles="padding-top: 17%; padding-bottom: 15%;"
                 disableDefaultStyles={false}
             />
         {:else}
-            <AllocEntry portal={portal_add_alloc} {maxa} />
+            <AllocEntry portal={portal_add_alloc} {maxa} {open_snack} />
         {/if}
     </div>
 </div>

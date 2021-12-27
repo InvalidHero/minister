@@ -16,6 +16,12 @@
 	import Card, { Content } from "@smui/card";
 	import Instruct from "./components/instructions.svelte";
 	import MenuSurface, { MenuSurfaceComponentDev } from "@smui/menu-surface";
+	import Snackbar, {
+		Actions,
+		Label,
+		SnackbarComponentDev,
+	} from "@smui/snackbar";
+
 	/*
 	0 => upload
 	1 => allocation page
@@ -56,6 +62,14 @@
 		}
 		status.set(1);
 	}
+
+	let snackbar: SnackbarComponentDev;
+	let text = "";
+
+	const open_snack = (input: string) => {
+		text = input;
+		snackbar.open();
+	};
 </script>
 
 <div class="whole-page">
@@ -166,11 +180,11 @@
 			<Card padded class="main-card" variant="outlined">
 				{#if $status == 0}
 					<!-- <SvelteMarkdown source={mk_upload} /> -->
-					<FileUpload {status} {set_data} />
+					<FileUpload {status} {set_data} {open_snack} />
 					<br />
 					<Instruct variant={"upload"} />
 				{:else if $status == 1}
-					<Allocation {status} {maxa} {allocs} />
+					<Allocation {status} {maxa} {allocs} {open_snack} />
 				{:else}
 					<StatsDashboard {status} {data} {maxa} {allocs} />
 				{/if}
@@ -178,6 +192,14 @@
 			<!-- </div> -->
 		</main>
 	</AutoAdjust>
+
+	<Snackbar bind:this={snackbar} labelText={text} timeoutMs={-1}>
+		<Label />
+		<Actions>
+			<IconButton class="material-icons" title="Dismiss">close</IconButton
+			>
+		</Actions>
+	</Snackbar>
 </div>
 
 <svelte:head>

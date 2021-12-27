@@ -5,6 +5,7 @@
 
     export let status;
     export let set_data;
+    export let open_snack;
 
     // const file_content: Record<string, any>[] = []; // local
     let maxs: Record<string, number>;
@@ -14,6 +15,8 @@
         if (fileRejections.length == 0) {
             load_file(acceptedFiles[0], set_data, true);
             status.set(1);
+        } else {
+            open_snack("Please upload a valid file.");
         }
     }
 </script>
