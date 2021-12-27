@@ -5,9 +5,9 @@
 {#if variant == "upload"}
     <div>
         <p>
-            Drag and drop or select from the popup above to upload the data as a
-            file for analysis. Please make sure that the file fits the criteria
-            below:
+            ✨ Drag and drop or select from the popup above to upload the data
+            as a file for analysis. Please make sure that the file fits the
+            criteria below:
         </p>
 
         <p class="list-item">
@@ -29,6 +29,32 @@
             >.
         </p>
     </div>
+{:else if variant == "allocations"}
+    <div>
+        <p>
+            ✨ You can add the allocations of each marker either by file or
+            form. If you are adding allocations by file, please make sure that
+        </p>
+        <p class="list-item">
+            Columns of the file (must be included as the header with the <code
+                >.csv</code
+            >
+            file) must be
+            <code
+                >Tutor Name, Question, Surname, Firstname, Surname, Firstname</code
+            >.
+        </p>
+        <p class="list-item">
+            All <code>Surname</code> and <code>Firstname</code> entries should be
+            given a single capital letter that marks the start and end of the corresponding
+            allocation.
+        </p>
+        <br />
+        <p>
+            After adding the allocations of each marker for each assignment, you
+            can check out a visualization of the allocations below.😈
+        </p>
+    </div>
 {/if}
 
 <style>
@@ -37,10 +63,15 @@
     }
 
     .list-item::before {
-        content: "- ";
+        /* content: "-- "; */
+        content: "🔔 ";
     }
 
     p.list-item {
         padding-left: 3em;
+    }
+
+    code {
+        background: rgb(231, 231, 231);
     }
 </style>

@@ -15,7 +15,7 @@
 	import IconButton from "@smui/icon-button";
 	import Card, { Content } from "@smui/card";
 	import Instruct from "./components/instructions.svelte";
-	import SvelteMarkdown from "svelte-markdown";
+	import MenuSurface, { MenuSurfaceComponentDev } from "@smui/menu-surface";
 	/*
 	0 => upload
 	1 => allocation page
@@ -25,7 +25,9 @@
 	let data: Record<string, any>[]; // marks
 	let maxa: Record<string, number>; // maximums
 	let allocs = writable(new allocRec()); // allocations
+
 	let topAppBar: TopAppBarComponentDev;
+	let surface: MenuSurfaceComponentDev;
 
 	const set_data = (fc, maxs) => {
 		data = fc;
@@ -56,93 +58,127 @@
 	}
 </script>
 
-<TopAppBar bind:this={topAppBar} variant="standard">
-	<Row>
-		<Section toolbar>
-			{#if $status == 0}
-				<div>
-					<IconButton
-						aria-label="home"
-						class="material-icons"
-						disabled>home</IconButton
-					>
-				</div>
-			{:else if $status == 1}
-				<div>
-					<IconButton
-						aria-label="allocation_back"
-						class="material-icons"
-						on:click={() => {
-							// allocation back button
-							status.set($status - 1);
-							$allocs.clear(); // clear allocations
+<div class="whole-page">
+	<TopAppBar bind:this={topAppBar} variant="standard">
+		<Row>
+			<Section toolbar>
+				{#if $status == 0}
+					<div>
+						<IconButton
+							aria-label="home"
+							class="material-icons"
+							disabled>home</IconButton
+						>
+					</div>
+				{:else if $status == 1}
+					<div>
+						<IconButton
+							aria-label="allocation_back"
+							class="material-icons"
+							on:click={() => {
+								// allocation back button
+								status.set($status - 1);
+								$allocs.clear(); // clear allocations
 
-							window.localStorage.removeItem("data");
-							window.localStorage.removeItem("allocations");
-							// TODO: add a proper prompt menu
-						}}>arrow_back</IconButton
-					>
-				</div>
-			{:else}
-				<div>
-					<IconButton
-						aria-label="dash_back"
-						class="material-icons"
-						on:click={() => {
-							status.set($status - 1);
-						}}>arrow_back</IconButton
-					>
-				</div>
-			{/if}
-			<Title>
-				<div>
-					<img
-						class="appbar-logo"
-						src="pixel_computer.png"
-						alt={""}
-					/>
-				</div>
-			</Title>
-			<p class="web-title">Minotaur :D</p>
-		</Section>
+								window.localStorage.removeItem("data");
+								window.localStorage.removeItem("allocations");
+								// TODO: add a proper prompt menu
+							}}>arrow_back</IconButton
+						>
+					</div>
+				{:else}
+					<div>
+						<IconButton
+							aria-label="dash_back"
+							class="material-icons"
+							on:click={() => {
+								status.set($status - 1);
+							}}>arrow_back</IconButton
+						>
+					</div>
+				{/if}
+				<Title>
+					<div>
+						<img
+							class="appbar-logo"
+							src="pixel_computer.png"
+							alt={""}
+						/>
+					</div>
+				</Title>
+				<p class="web-title">Minotaur</p>
+			</Section>
 
-		{#if $status == 1}
 			<Section align="end" toolbar>
 				<div>
-					<IconButton
-						aria-label="allocation_confirm"
-						class="material-icons"
-						on:click={() => {
-							status.set($status + 1);
-						}}>arrow_forward</IconButton
-					>
+					{#if $status == 1}
+						<IconButton
+							aria-label="allocation_confirm"
+							class="material-icons"
+							on:click={() => {
+								status.set($status + 1);
+							}}>arrow_forward</IconButton
+						>
+					{:else}
+						<IconButton
+							aria-label="about_us"
+							class="material-icons"
+							on:click={() => surface.setOpen(true)}
+							>info_icon</IconButton
+						>
+						<MenuSurface
+							bind:this={surface}
+							anchorCorner="TOP_RIGHT"
+						>
+							<div class="about-us">
+								<p>
+									A simple <a href="https://svelte.dev/"
+										>Svelte</a
+									> site for for analyzing marking distributions.
+								</p>
+								<p>
+									Written and built by <a
+										href="https://github.com/InvalidHero"
+										>Even</a
+									>
+									and
+									<a href="https://github.com/xpire">Justin</a
+									>💦.
+								</p>
+							</div>
+						</MenuSurface>
+					{/if}
 				</div>
 			</Section>
-		{/if}
-	</Row>
-</TopAppBar>
+		</Row>
+	</TopAppBar>
 
-<AutoAdjust {topAppBar}>
-	{#if $status == 0}
-		<h1>Loading Zone</h1>
-	{:else if $status == 1}{:else}{/if}
-	<main>
-		<!-- <div class="main-container"> -->
-		<Card padded class="main-card" variant="outlined">
-			{#if $status == 0}
-				<!-- <SvelteMarkdown source={mk_upload} /> -->
-				<FileUpload {status} {set_data} />
-				<br />
-				<Instruct variant={"upload"} />
-			{:else if $status == 1}
-				<Allocation {status} {maxa} {allocs} />
-			{:else}
-				<StatsDashboard {status} {data} {maxa} {allocs} />
-			{/if}
-		</Card>
-		<!-- </div> -->
-	</main>
-</AutoAdjust>
+	<AutoAdjust {topAppBar}>
+		{#if $status == 0}
+			<h1>Loading Zone</h1>
+		{:else if $status == 1}
+			<h1>Allocations</h1>
+		{:else}
+			<h1>Statistics</h1>
+		{/if}
+		<main>
+			<!-- <div class="main-container"> -->
+			<Card padded class="main-card" variant="outlined">
+				{#if $status == 0}
+					<!-- <SvelteMarkdown source={mk_upload} /> -->
+					<FileUpload {status} {set_data} />
+					<br />
+					<Instruct variant={"upload"} />
+				{:else if $status == 1}
+					<Allocation {status} {maxa} {allocs} />
+				{:else}
+					<StatsDashboard {status} {data} {maxa} {allocs} />
+				{/if}
+			</Card>
+			<!-- </div> -->
+		</main>
+	</AutoAdjust>
+</div>
 
 <svelte:head>
 	<!-- Fonts -->
@@ -173,6 +209,9 @@
 		position: static !important;
 	}
 
+	:global(span.mdc-top-app-bar__title) {
+		padding-left: 0px;
+	}
 	:global(.web-title) {
 		font-size: 20px;
 		padding-left: 7px;
@@ -184,9 +223,6 @@
 		padding-top: 8px;
 	}
 
-	/* :global(.main-container) {
-
-	} */
 	:global(.main-card) {
 		/* max-width: 900px; */
 		/* position: relative; */
@@ -195,6 +231,16 @@
 		margin-left: auto;
 		margin-right: auto;
 		width: 100%;
+	}
+	.about-us {
+		padding: 10px;
+		width: 450px;
+	}
+
+	.whole-page {
+		position: absolute;
+		width: 100%;
+		height: 100%;
 	}
 
 	main {

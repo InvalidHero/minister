@@ -1,6 +1,7 @@
 <script lang="ts">
     import Dropzone from "svelte-file-dropzone";
     import { load_file } from "./generalUtils.svelte";
+    import Instruct from "./instructions.svelte";
 
     export let status;
     export let set_data;

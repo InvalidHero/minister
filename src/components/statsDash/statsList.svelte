@@ -1,8 +1,4 @@
 <script lang="ts">
-    /*
-    TODO: 
-    - If there are less than 2 charts then no comparison chart will be given
-    */
     import Accordion, { Panel, Header, Content } from "@smui-extra/accordion";
     import StatsTable from "./statsTable.svelte";
     import { occ_collect_mini } from "./statsUtil.svelte";
@@ -25,12 +21,18 @@
     <Panel>
         <Header>Overall</Header>
         <Content>
-            <div>
-                <LinkedLabel linked="link-1" />
+            <div class="minigraph">
+                <div class="minigraph-label; align: right;">
+                    <LinkedLabel linked="link-1" empty="mark" />
+                </div>
                 <LinkedChart
                     data={occ_collect_mini("", rod, maxa[ass_name])}
                     linked="link-1"
                     showValue={true}
+                    valueDefault="Empty label"
+                    valuePrepend="frequency:"
+                    grow={true}
+                    height={80}
                 />
             </div>
             <div>
@@ -40,14 +42,22 @@
     </Panel>
     {#each rfd as alloc}
         <Panel>
-            <Header>{alloc.name}</Header>
+            <Header>
+                {alloc.name}</Header
+            >
             <Content>
-                <div>
-                    <LinkedLabel linked="link-1" />
+                <div class="minigraph">
+                    <div class="minigraph-label; align: right;">
+                        <LinkedLabel linked="link-1" empty="mark" />
+                    </div>
                     <LinkedChart
                         data={occ_collect_mini("", alloc.data, maxa[ass_name])}
                         linked="link-1"
                         showValue={true}
+                        valueDefault="Empty label"
+                        valuePrepend="frequency:"
+                        grow={true}
+                        height={80}
                     />
                 </div>
                 <div>
@@ -61,5 +71,8 @@
 <style>
     :global(div.smui-accordion__header__title) {
         text-align: left;
+    }
+    .minigraph {
+        float: left;
     }
 </style>

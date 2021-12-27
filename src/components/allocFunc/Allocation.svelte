@@ -8,7 +8,7 @@
     import AllocList from "./allocList.svelte";
     import { update_alloc, allocsv_gen } from "../generalUtils.svelte";
     import Dialog, { Title, Content, Actions } from "@smui/dialog";
-    import SvelteMarkdown from "svelte-markdown";
+    import Instruct from "../instructions.svelte";
 
     // [Tutor Name,Question Number,Surname,Firstname,Surname,Firstname]
     export let status;
@@ -64,7 +64,7 @@
     let csv_strings: string[] = allocsv_gen();
 </script>
 
-<h1>Add your allocations</h1>
+<!-- <h1>Add your allocations</h1> -->
 
 <Dialog
     bind:open
@@ -98,21 +98,27 @@
             <Label>{tab.label}</Label>
         </Tab>
     </TabBar>
-
-    {#if active.label == "By file"}
-        <Dropzone
-            on:droprejected={() => console.log("provide a csv file pls")}
-            on:drop={(e) => {
-                handleFileSelect(e);
-            }}
-            accept=".csv"
-        />
-    {:else}
-        <AllocEntry portal={portal_add_alloc} {maxa} />
-    {/if}
+    <br />
+    <div class="alloc-select">
+        {#if active.label == "By file"}
+            <Dropzone
+                on:droprejected={() => console.log("provide a csv file pls")}
+                on:drop={(e) => {
+                    handleFileSelect(e);
+                }}
+                accept=".csv"
+                containerClasses="drop-zone-class"
+                containerStyles="padding-top: 17% ;padding-bottom: 15%;"
+                disableDefaultStyles={false}
+            />
+        {:else}
+            <AllocEntry portal={portal_add_alloc} {maxa} />
+        {/if}
+    </div>
 </div>
-
 <br />
+
+<Instruct variant={"allocations"} />
 
 <AllocList {allocs} />
 
@@ -147,3 +153,11 @@
         href="https://unpkg.com/@material/typography@13.0.0/dist/mdc.typography.css"
     />
 </svelte:head>
+
+<style>
+    .alloc-select {
+        min-height: 337px;
+        display: flex;
+        flex-direction: column;
+    }
+</style>

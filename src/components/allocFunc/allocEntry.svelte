@@ -4,6 +4,7 @@
     import Textfield from "@smui/textfield";
     import Autocomplete from "@smui-extra/autocomplete";
     import { update_alloc } from "../generalUtils.svelte";
+    import LayoutGrid, { Cell } from "@smui/layout-grid";
 
     export let portal; // prop
     export let maxa;
@@ -40,53 +41,88 @@
     };
 </script>
 
-<div>
-    <Textfield bind:value={name} label="Name" variant="filled" />
-</div>
-<div>
-    <Textfield bind:value={assignment} label="Assignment" variant="filled" />
+<div class="allocs-entry">
+    <LayoutGrid>
+        <Cell>
+            <div class="input-cell">
+                <Textfield bind:value={name} label="Name" variant="filled" />
+            </div>
+        </Cell>
+
+        <Cell>
+            <div class="input-cell">
+                <Autocomplete
+                    options={letters}
+                    bind:value={s1}
+                    label="Starting Surname"
+                    textfield$variant="filled"
+                />
+            </div>
+        </Cell>
+
+        <Cell>
+            <div class="input-cell">
+                <Autocomplete
+                    options={letters}
+                    bind:value={s2}
+                    label="Ending Surname"
+                    textfield$variant="filled"
+                />
+            </div>
+        </Cell>
+
+        <Cell>
+            <div class="input-cell">
+                <Textfield
+                    bind:value={assignment}
+                    label="Assignment"
+                    variant="filled"
+                />
+            </div>
+        </Cell>
+
+        <Cell>
+            <div class="input-cell">
+                <Autocomplete
+                    options={letters}
+                    bind:value={f1}
+                    label="Starting Firstname"
+                    textfield$variant="filled"
+                />
+            </div>
+        </Cell>
+
+        <Cell>
+            <div class="input-cell">
+                <Autocomplete
+                    options={letters}
+                    bind:value={f2}
+                    label="Ending Firstname"
+                    textfield$variant="filled"
+                />
+            </div>
+        </Cell>
+    </LayoutGrid>
+
+    <br />
+
+    <div>
+        <Button on:click={handleSubmit} variant="raised">
+            <Label>Add Entry</Label>
+        </Button>
+    </div>
 </div>
 
-<div>
-    <Autocomplete
-        options={letters}
-        bind:value={s1}
-        label="Starting Surname"
-        textfield$variant="filled"
-    />
-</div>
-
-<div>
-    <Autocomplete
-        options={letters}
-        bind:value={f1}
-        label="Starting Firstname"
-        textfield$variant="filled"
-    />
-</div>
-
-<div>
-    <Autocomplete
-        options={letters}
-        bind:value={s2}
-        label="Ending Surname"
-        textfield$variant="filled"
-    />
-</div>
-
-<div>
-    <Autocomplete
-        options={letters}
-        bind:value={f2}
-        label="Ending Firstname"
-        textfield$variant="filled"
-    />
-</div>
-
-<br />
-
-<div>
-    <Button on:click={handleSubmit} variant="raised">
-        <Label>Add Entry</Label>
-    </Button>
-</div>
+<style>
+    .input-cell {
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* background-color: var(--mdc-theme-secondary, #333);
+        color: var(--mdc-theme-on-secondary, #fff); */
+    }
+    /* .allocs-entry {
+        height: 100%;
+    } */
+</style>

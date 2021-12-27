@@ -59,17 +59,7 @@
     }
 </script>
 
-<h1>Statistics</h1>
-
-<br />
-
-<div>
-    <Button on:click={() => status.set($status - 1)} variant="raised">
-        <Label>Back</Label>
-    </Button>
-</div>
-
-<Select bind:value label="Select Menu">
+<Select bind:value label="Select Assignment">
     {#each test_options as ass_name}
         <Option value={ass_name}>{ass_name}</Option>
     {/each}
