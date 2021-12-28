@@ -1,6 +1,6 @@
 # 📓 Minister 📓
 
-A simple Svelte application to make tutoring a bit better. 💦
+A simple Svelte application to make tutoring a bit better [here](https://invalidhero.github.io/minister/). 💦
 
 Contributors: [me](https://github.com/InvalidHero) and [xpirep](https://github.com/xpire). 💦
 
