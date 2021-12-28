@@ -1,7 +1,7 @@
 <script lang="ts">
     import "@carbon/charts/styles.min.css";
     import "carbon-components/css/carbon-components.min.css";
-    import { BarChartStacked, StackedAreaChart } from "@carbon/charts-svelte";
+    import { AreaChart, BarChartGrouped } from "@carbon/charts-svelte";
     import { occ_collect } from "./statsUtil.svelte";
 
     export let overall_data: number[]; // overall data
@@ -35,37 +35,70 @@
         }
     };
 
-    $: collective_data = final_collect(occ_od, occ_fd);
+    $: collective_data_str = final_collect(occ_od, occ_fd, true);
+    $: collective_data_num = final_collect(occ_od, occ_fd, false);
 
-    function final_collect(occ_od, occ_fd): Record<string, any>[] {
-        return occ_od.concat(occ_fd);
+    function final_collect(
+        occ_od,
+        occ_fd,
+        str: boolean
+    ): Record<string, any>[] {
+        if (str) {
+            return occ_od.concat(occ_fd).map((v) => {
+                v.key = v.key.toString();
+                return v;
+            });
+        } else {
+            return occ_od.concat(occ_fd);
+        }
     }
 
-    let opts: Record<string, any> = {
-        title: "Discrete Stacked Scores",
+    let bar_opts: Record<string, any> = {
+        title: "Discrete Grouped Scores",
         axes: {
             left: {
                 mapsTo: "value",
-                stacked: true,
+                title: "frequency",
+                // stacked: true,
             },
             bottom: {
                 mapsTo: "key",
-                scaleType: "linear",
-                domain: [0 - EPSILON, MAX + EPSILON],
+                scaleType: "labels",
+                title: "discrete marks",
+                // domain: [0 - EPSILON, MAX + EPSILON],
             },
         },
         height: "400px",
     };
-    if (!bar) {
-        opts["curve"] = "curveMonotoneX";
-        opts.title = "Line Stacked Marks";
-    }
+
+    const line_opts: Record<string, any> = {
+        title: "Line Grouped Marks",
+        animations: true,
+        axes: {
+            left: {
+                mapsTo: "value",
+                title: "frequency",
+            },
+            bottom: {
+                title: "marks",
+                mapsTo: "key",
+                scaleType: "linear",
+                includeZero: true,
+                domain: [0 - EPSILON, MAX + EPSILON],
+            },
+        },
+        // curve: "curveMonotoneX",
+        curve: "curveNatural",
+        height: "400px",
+    };
 </script>
 
 <div>
     {#if bar == true}
-        <BarChartStacked data={collective_data} options={opts} />
+        <BarChartGrouped data={collective_data_str} options={bar_opts} />
     {:else}
-        <StackedAreaChart data={collective_data} options={opts} />
+        <div>
+            <AreaChart data={collective_data_num} options={line_opts} />
+        </div>
     {/if}
 </div>
