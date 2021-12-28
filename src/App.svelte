@@ -17,10 +17,15 @@
 	import Instruct from "./components/instructions.svelte";
 	import MenuSurface, { MenuSurfaceComponentDev } from "@smui/menu-surface";
 	import Snackbar, {
-		Actions,
 		Label,
 		SnackbarComponentDev,
+		Actions as Snackbar_actions,
 	} from "@smui/snackbar";
+	import Dialog, {
+		InitialFocus,
+		Actions as Dialog_actions,
+	} from "@smui/dialog";
+	import Button from "@smui/button";
 
 	/*
 	0 => upload
@@ -70,7 +75,48 @@
 		text = input;
 		snackbar.open();
 	};
+
+	let open = false;
 </script>
+
+<Dialog
+	bind:open
+	aria-labelledby="simple-title"
+	aria-describedby="simple-content"
+>
+	<!-- <Title id="simple-title">Are you sure ?</Title> -->
+	<Content id="simple-content"
+		><p tabindex="0">
+			Returning to the upload page will clear the content of uploaded
+			assignment marks and allocations.
+		</p>
+	</Content>
+	<Dialog_actions>
+		<Button
+			variant="raised"
+			on:click={() => {
+				// allocation back button
+				status.set($status - 1);
+				$allocs.clear(); // clear allocations
+
+				window.localStorage.removeItem("data");
+				window.localStorage.removeItem("allocations");
+			}}
+		>
+			<Label>Yes</Label>
+		</Button>
+		<Button
+			variant="raised"
+			defaultAction
+			use={[InitialFocus]}
+			on:click={() => {
+				console.log("clicked");
+			}}
+		>
+			<Label>No</Label>
+		</Button>
+	</Dialog_actions>
+</Dialog>
 
 <div class="whole-page">
 	<TopAppBar bind:this={topAppBar} variant="standard">
@@ -89,15 +135,8 @@
 						<IconButton
 							aria-label="allocation_back"
 							class="material-icons"
-							on:click={() => {
-								// allocation back button
-								status.set($status - 1);
-								$allocs.clear(); // clear allocations
-
-								window.localStorage.removeItem("data");
-								window.localStorage.removeItem("allocations");
-								// TODO: add a proper prompt menu
-							}}>arrow_back</IconButton
+							on:click={() => (open = true)}
+							>arrow_back</IconButton
 						>
 					</div>
 				{:else}
@@ -120,7 +159,7 @@
 						/>
 					</div>
 				</Title>
-				<p class="web-title">Minotaur</p>
+				<p class="web-title">Minister</p>
 			</Section>
 
 			<Section align="end" toolbar>
@@ -195,10 +234,10 @@
 
 	<Snackbar bind:this={snackbar} labelText={text} timeoutMs={-1}>
 		<Label />
-		<Actions>
+		<Snackbar_actions>
 			<IconButton class="material-icons" title="Dismiss">close</IconButton
 			>
-		</Actions>
+		</Snackbar_actions>
 	</Snackbar>
 </div>
 
