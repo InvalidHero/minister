@@ -1,4 +1,4 @@
-# 🐂 Minotaur 🐂 
+# 📚 Minister 📚
 
 A simple Svelte application to make tutoring a bit better. 💦
 
