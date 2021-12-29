@@ -7,7 +7,7 @@ ghpages.publish(
         repo: 'https://github.com/InvalidHero/minister.git', // Update to point to your repository  
         user: {
             name: 'InvalidHero', // update to use your name
-            email: '' // Update to use your email
+            email: 'even.tang.dev@gmail.com' // Update to use your email
         }
     },
     () => {
