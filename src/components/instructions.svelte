@@ -63,6 +63,17 @@
             </p>
         </div>
     </Paper>
+{:else if variant == "graph"}
+    <Paper elevation={2}>
+        <div>
+            <p>
+                ✨ Frequency value of any <code>x</code> on the x-axis of the
+                graph are binned such that it counts the occurrence of all
+                values between
+                <code>[x, x + 1)</code>.
+            </p>
+        </div>
+    </Paper>
 {/if}
 
 <style>

@@ -83,7 +83,6 @@
                 title: "marks",
                 mapsTo: "key",
                 scaleType: "linear",
-                includeZero: true,
                 domain: [0 - EPSILON, MAX + EPSILON],
             },
         },

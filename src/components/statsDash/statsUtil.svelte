@@ -23,22 +23,42 @@
     }
 
     export function occ_collect(name, data, max): Record<string, any>[] {
-        // collect data into occurrences
-        const temp: Record<string, any>[] = data.reduce(
-            (p, c) => ({
-                ...p,
-                [c]: { group: name, key: c, value: p[c]?.["value"] + 1 || 1 },
-            }),
-            {}
-        ); // Reduce to frequency histrogram
+        const temp_rec: Record<number, number> = {}; // collecting occurrence
+        data.forEach((v: number) => {
+            if (v in temp_rec) {
+                temp_rec[v]++;
+            } else {
+                temp_rec[v] = 1;
+            }
+        });
+
+        Object.keys(temp_rec).forEach((v) => {
+            // filters out the none
+            const t = parseInt(v);
+            if (!Number.isInteger(t)) {
+                temp_rec[Math.floor(t)]++;
+                delete temp_rec[v];
+            }
+        });
 
         Array(max + 1)
             .fill(0)
             .forEach((_, i: number) => {
-                if (!(i in temp)) {
-                    temp[i] = { group: name, key: i, value: 0 };
+                if (!(i in temp_rec)) {
+                    temp_rec[i] = 0;
                 }
             }); // Fill in values with no occurrence
-        return Object.keys(temp).map((v) => temp[v]); // returns an array
+
+        const formatted: Record<string, any>[] = Object.keys(temp_rec).map(
+            (v: string) => {
+                return {
+                    group: name,
+                    key: parseInt(v),
+                    value: temp_rec[v],
+                };
+            }
+        );
+
+        return formatted; // returns an array
     }
 </script>

@@ -7,6 +7,7 @@
     import StatsList from "./statsList.svelte";
     import { filter_via_alloc } from "./statsUtil.svelte";
     import StatsStack from "./statsStacked.svelte";
+    import Instruct from "../instructions.svelte";
 
     export let status; // for paging an rendering
     export let data; // marks
@@ -81,9 +82,10 @@
     {/if}
 </div>
 
-<!-- <Dchart /> -->
-
 <br />
+<Instruct variant={"graph"} />
+<br />
+
 <StatsList {overall_data} {filtered_data} {maxa} ass_name={value} />
 
 <svelte:head>
