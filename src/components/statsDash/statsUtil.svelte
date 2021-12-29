@@ -34,7 +34,7 @@
 
         Object.keys(temp_rec).forEach((v) => {
             // filters out the none
-            const t = parseInt(v);
+            const t = parseFloat(v);
             if (!Number.isInteger(t)) {
                 temp_rec[Math.floor(t)]++;
                 delete temp_rec[v];
